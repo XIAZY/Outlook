@@ -13,22 +13,23 @@ class Node:
     def __lt__(self, other):
         if (self.lo < other.get_lo):
             return True
-        elif (self.lo == other.get_lo and self.hi<other.get_hi):
+        elif (self.lo == other.get_lo and self.hi < other.get_hi):
             return True
         else:
             return False
-    
+
     def __eq__(self, other):
         return self.lo == other.get_lo and self.hi == other.get_hi
 
     def __hash__(self):
         return hash((self.lo, self.hi))
-        
+
     def get_lo(self):
         return self.lo
-    
+
     def get_hi(self):
         return self.hi
+
     def set_left(self, left_node):
         self.left = left_node
 
