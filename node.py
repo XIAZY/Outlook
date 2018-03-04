@@ -1,6 +1,6 @@
 class Node:
 
-    def __init__(self, lo, hi, task_name):
+    def __init__(self, lo, hi, task_name, parent=None, height=0):
         self.lo = lo
         self.hi = hi
         self.task_name = task_name
@@ -9,6 +9,8 @@ class Node:
         # left and right children
         self.left = None
         self.right = None
+        self.parent=parent
+        self.height=height
 
     def __lt__(self, other):
         if (self.lo < other.get_lo):
@@ -23,21 +25,3 @@ class Node:
 
     def __hash__(self):
         return hash((self.lo, self.hi))
-
-    def get_lo(self):
-        return self.lo
-
-    def get_hi(self):
-        return self.hi
-
-    def set_left(self, left_node):
-        self.left = left_node
-
-    def get_left(self):
-        return self.left
-
-    def set_right(self, right_node):
-        self.right = right_node
-
-    def get_right(self):
-        return self.right
