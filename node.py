@@ -20,6 +20,9 @@ class Node:
     
     def __eq__(self, other):
         return self.lo == other.get_lo and self.hi == other.get_hi
+
+    def __hash__(self):
+        return hash((self.lo, self.hi))
         
     def get_lo(self):
         return self.lo
