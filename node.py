@@ -143,3 +143,6 @@ class Node:
             self.parent.left = new_node
         elif self.is_left_child_of_parent is False:
             self.parent.right = new_node
+
+    def is_overlap(self, hi, lo):
+        return (lo < self.lo < hi) or (lo < self.hi < hi) or (self.lo <= lo and self.hi >= hi)
