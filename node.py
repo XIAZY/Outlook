@@ -1,6 +1,6 @@
 class Node:
 
-    def __init__(self, lo, hi, task, height=0):
+    def __init__(self, lo, hi, task, height=1):
         self.lo = lo
         self.hi = hi
         self.task = task
@@ -57,7 +57,9 @@ class Node:
         x.left = self
         self.is_left_child_of_parent=True
         self.update_height()
+        self.update_max()
         x.update_height()
+        x.update_max()
         return self
 
     def clockwise_rotation(self):
@@ -90,7 +92,9 @@ class Node:
         x.right = self
         self.is_left_child_of_parent=False
         self.update_height()
+        self.update_max()
         x.update_height()
+        x.update_max()
         return self
 
     def update_height(self):
@@ -98,12 +102,27 @@ class Node:
 
     def left_height(self):
         if (self.left is None):
-            return -1
+            return 0
         else:
             return self.left.height
 
     def right_height(self):
         if (self.right is None):
-            return -1
+            return 0
         else:
             return self.right.height
+
+    def left_max(self):
+        if (self.left is None):
+            return 0
+        else:
+            return self.left.max
+    
+    def right_max(self):
+        if (self.right is None):
+            return 0
+        else:
+            return self.right.max
+
+    def update_max(self):
+        self.max = max(self.max, self.left_max(), self.right_max())
