@@ -7,6 +7,9 @@ class Tree:
         self.root = root
 
     def insert(self, new_node):
+        if self.root is None:
+            self.root = new_node
+            return new_node
         node = self.root
         while (node is not None):
             if (node == new_node):
@@ -85,3 +88,76 @@ class Tree:
                     # lo <= node.left.max, go left
                     node = node.left
         return True
+
+    def delete_node(self, node):
+        if (node.left is None and node.right is None):
+            parent = node.parent
+            if parent is not None:
+                if (node.is_left_child_of_parent):
+                    parent.left = None
+                else:
+                    parent.right = None
+                self.rebalance(parent)
+            else:
+                # node is root
+                self.root=None
+        elif (node.left is not None and node.right is None):
+            parent = node.parent
+            if (parent is not None):
+                if node.is_left_child_of_parent:
+                    parent.left = node.left
+                else:
+                    node.right = node.left
+                node.left.parent = parent
+                node.left.is_left_child_of_parent = node.is_left_child_of_parent
+                self.rebalance(parent)
+            else:
+                self.root = node.left
+
+        elif (node.left is None and node.right is not None):
+            parent = node.parent
+            if (parent is not None):
+                if node.is_left_child_of_parent:
+                    parent.left = node.right
+                else:
+                    node.right = node.right
+                node.right.parent = parent
+                node.right.is_left_child_of_parent = node.is_left_child_of_parent
+                self.rebalance(parent)
+            else:
+                self.root = node.right
+
+        else:
+            # both children not empty
+            # get the left most child of right subtree
+            replacement = node.right
+            replacement_parent = node
+            while replacement.left is not None:
+                replacement_parent = replacement
+                replacement = replacement.left
+
+            if replacement == node.right:
+                # replace replacement_parent to replacement
+                replacement_parent.right=None
+                replacement_parent.replace(replacement)
+                self.rebalance(replacement)
+            else:
+                # clean replacement's old parent
+                replacement.replace(replacement.right)
+                replacement.right=None
+                node.replace(replacement)
+                self.rebalance(replacement_parent)
+            # # replace replacement to node
+            # replacement.parent = node.parent
+            # replacement.is_left_child_of_parent = node.is_left_child_of_parent
+            # replacement.left = node.left
+            # replacement.right = node.right
+            # if (node.parent is not None):
+            #     if (node.is_left_child_of_parent):
+            #         node.parent.left = replacement
+            #     else:
+            #         node.parent.right = replacement
+            # else:
+            #     self.root = replacement
+            
+            # self.rebalance(replacement_parent)
