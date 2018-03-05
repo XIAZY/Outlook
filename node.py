@@ -125,4 +125,21 @@ class Node:
             return self.right.max
 
     def update_max(self):
-        self.max = max(self.max, self.left_max(), self.right_max())
+        self.max = max(self.hi, self.left_max(), self.right_max())
+
+    def replace(self, new_node):
+        if self.right:
+                self.right.parent = new_node
+        if self.left:
+                self.left.parent = new_node
+        if new_node is not None:
+            new_node.parent = self.parent
+            new_node.is_left_child_of_parent = self.is_left_child_of_parent
+            new_node.right = self.right
+            new_node.left=self.left
+            new_node.height=1
+            new_node.max=0
+        if self.is_left_child_of_parent is True:
+            self.parent.left = new_node
+        elif self.is_left_child_of_parent is False:
+            self.parent.right = new_node
