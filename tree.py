@@ -1,5 +1,6 @@
 from node import Node
 
+
 class Tree:
     # essentially an AVL tree implemantation
     def __init__(self, root):
@@ -42,25 +43,45 @@ class Tree:
             node.update_height()
             if (node.left_height() + 1 < node.right_height()):
                 # right is taller by 2
-                right=node.right
+                right = node.right
                 if (right.left_height() <= right.right_height()):
                     # single counter clockwise rotation
-                    node=node.counter_clockwise_rotation().parent
-                elif (right.left_height()>right.right_height()):
+                    node = node.counter_clockwise_rotation().parent
+                elif (right.left_height() > right.right_height()):
                     # need double rotation
                     right.clockwise_rotation()
-                    node=node.counter_clockwise_rotation().parent
+                    node = node.counter_clockwise_rotation().parent
             elif (node.left_height() > node.right_height()+1):
                 # left is taller by 2
-                left=node.left
+                left = node.left
                 if (left.left_height() >= left.right_height()):
                     # single clockwise rotation
-                    node=node.clockwise_rotation().parent
-                elif (left.left_height()<left.right_height()):
+                    node = node.clockwise_rotation().parent
+                elif (left.left_height() < left.right_height()):
                     # need double rotation
                     left.counter_clockwise_rotation()
-                    node=node.clockwise_rotation().parent
+                    node = node.clockwise_rotation().parent
             if node.parent is None:
                 self.root = node
-            node=node.parent
+            node = node.parent
 
+    def lookup(self, lo, hi):
+        node = self.root
+        while node is not None:
+            # three cases of overlap: 
+            # node's lo inside given interval,
+            # node's hi inside given interval,
+            # interval inside node
+            if (lo < node.lo < hi) or (lo < node.hi < hi) or (node.lo <= lo and node.hi >= hi):
+                # overlap
+                return False
+            else:
+                if node.left is None:
+                    node = node.right
+                elif node.left.max < lo:
+                    # no possibility on left, go right
+                    node = node.right
+                else:
+                    # lo <= node.left.max, go left
+                    node = node.left
+        return True
