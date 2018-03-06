@@ -2,6 +2,8 @@ from node import Node
 from tree import Tree
 
 class Calendar:
+    # calendar implementation using avl tree and interval node
+    # worst case O(log(n))
     def __init__(self):
         self.tree=Tree(None)
     
