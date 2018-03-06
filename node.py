@@ -1,6 +1,6 @@
 class Node:
 
-    def __init__(self, lo, hi, task, height=1):
+    def __init__(self, lo, hi, task=""):
         self.lo = lo
         self.hi = hi
         self.task = task
@@ -11,7 +11,7 @@ class Node:
         self.right = None
         self.parent = None
         self.is_left_child_of_parent = None
-        self.height = height
+        self.height = 1
 
     def __lt__(self, other):
         if (self.lo < other.lo):
@@ -144,5 +144,5 @@ class Node:
         elif self.is_left_child_of_parent is False:
             self.parent.right = new_node
 
-    def is_overlap(self, hi, lo):
+    def is_overlap(self, lo, hi):
         return (lo < self.lo < hi) or (lo < self.hi < hi) or (self.lo <= lo and self.hi >= hi)
