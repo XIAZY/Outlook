@@ -7,7 +7,9 @@ class Tree:
         self.root = root
 
     def insert(self, new_node):
+        # insert a new node to tree
         if self.root is None:
+            # root is none, replace node
             self.root = new_node
             return new_node
         node = self.root
@@ -95,6 +97,7 @@ class Tree:
         return not bool(self.get_node(lo, hi))
 
     def delete_node(self, node):
+        # delete a single node and rebalance
         if (node.left is None and node.right is None):
             parent = node.parent
             if parent is not None:
@@ -155,6 +158,7 @@ class Tree:
             return replacement
 
     def delete_interval(self, lo, hi):
+        # delete all node overlap a time interval
         node = self.get_node(lo, hi)
         deleted = []
         while node is not None:

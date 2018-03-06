@@ -128,6 +128,7 @@ class Node:
         self.max = max(self.hi, self.left_max(), self.right_max())
 
     def replace(self, new_node):
+        # replace self with new_node
         if self.right:
                 self.right.parent = new_node
         if self.left:
@@ -145,4 +146,5 @@ class Node:
             self.parent.right = new_node
 
     def is_overlap(self, lo, hi):
+        # return if self overlap with given interval
         return (lo < self.lo < hi) or (lo < self.hi < hi) or (self.lo <= lo and self.hi >= hi)
