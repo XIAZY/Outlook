@@ -2,6 +2,7 @@ import unittest
 
 from node import Node
 from tree import Tree
+from calendar import Calendar
 
 class TreeTest(unittest.TestCase):
     def test_init(self):
@@ -223,6 +224,9 @@ class TreeTest(unittest.TestCase):
         self.assertEqual(tree.root.left, d)
         self.assertEqual(tree.root.left.right, b)
 
+    def test_blank_calendar(self):
+        cal=Calendar()
+        self.assertTrue(cal.lookup(0,10))
 
 if __name__=='__main__':
     unittest.main()
