@@ -68,16 +68,17 @@ class Tree:
                 self.root = node
             node = node.parent
 
-    def lookup(self, lo, hi):
+    def get_node(self, lo, hi):
+        # get the first node over lap with the given interval
         node = self.root
         while node is not None:
             # three cases of overlap: 
             # node's lo inside given interval,
             # node's hi inside given interval,
             # interval inside node
-            if (lo < node.lo < hi) or (lo < node.hi < hi) or (node.lo <= lo and node.hi >= hi):
+            if node.is_overlap(lo, hi):
                 # overlap
-                return False
+                return node
             else:
                 if node.left is None:
                     node = node.right
@@ -87,7 +88,10 @@ class Tree:
                 else:
                     # lo <= node.left.max, go left
                     node = node.left
-        return True
+        return None
+
+    def lookup(self, lo, hi):
+        return bool(self, lo, hi)
 
     def delete_node(self, node):
         if (node.left is None and node.right is None):
@@ -138,7 +142,7 @@ class Tree:
 
             if replacement == node.right:
                 # replace replacement_parent to replacement
-                replacement_parent.right=None
+                replacement_parent.right=replacement.right
                 replacement_parent.replace(replacement)
                 self.rebalance(replacement)
             else:
@@ -147,17 +151,13 @@ class Tree:
                 replacement.right=None
                 node.replace(replacement)
                 self.rebalance(replacement_parent)
-            # # replace replacement to node
-            # replacement.parent = node.parent
-            # replacement.is_left_child_of_parent = node.is_left_child_of_parent
-            # replacement.left = node.left
-            # replacement.right = node.right
-            # if (node.parent is not None):
-            #     if (node.is_left_child_of_parent):
-            #         node.parent.left = replacement
-            #     else:
-            #         node.parent.right = replacement
-            # else:
-            #     self.root = replacement
-            
-            # self.rebalance(replacement_parent)
+            return replacement
+
+    def delete_interval(self, lo, hi):
+        node = self.get_node(lo, hi)
+        deleted = []
+        while node is not None:
+            self.delete_node(node)
+            deleted.append(node)
+            node = self.get_node(lo, hi)
+        return deleted
