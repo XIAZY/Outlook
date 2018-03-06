@@ -91,7 +91,8 @@ class Tree:
         return None
 
     def lookup(self, lo, hi):
-        return bool(self, lo, hi)
+        # find out if the given interval is available
+        return not bool(self.get_node(lo, hi))
 
     def delete_node(self, node):
         if (node.left is None and node.right is None):
@@ -111,7 +112,7 @@ class Tree:
                 if node.is_left_child_of_parent:
                     parent.left = node.left
                 else:
-                    node.right = node.left
+                    parent.right = node.left
                 node.left.parent = parent
                 node.left.is_left_child_of_parent = node.is_left_child_of_parent
                 self.rebalance(parent)
